@@ -13,8 +13,8 @@ const encode = obj => {
   return buf.toArrayBuffer()
 }
 
-const decode = raw => {
-  let buf = protobuf.util.newBuffer(raw)
+const decode = data => {
+  let buf = protobuf.util.newBuffer(data)
   let header = Header.decode(buf)
   return C0101EchoRespMessage.decode(header.data)
 }

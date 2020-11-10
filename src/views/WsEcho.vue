@@ -58,7 +58,9 @@ export default {
         that.printLog('Info: Connection Established.')
       }
       ws.onmessage = function (event) {
-        that.handleRecv(event.data)
+        event.data.arrayBuffer().then(buf => {
+          that.handleRecv(buf)
+        })
       }
       ws.onclose = function () {
         that.wsConnected = false
@@ -66,15 +68,15 @@ export default {
       }
       this.ws = ws
     },
-    handleRecv (raw) {
-      let msg = codec.decode(raw)
-      this.printLog(`[recv] - ${msg.content}`)
+    handleRecv (buf) {
+      let msg = codec.decode(buf)
+      this.printLog('[recv]: ' + JSON.stringify(msg))
     },
     wsSend () {
-      let content = this.textarea
-      let buffer = codec.encode({ content: content })
+      let obj = { content: this.textarea };
+      let buffer = codec.encode(obj)
       this.ws.send(buffer)
-      this.printLog(`[send] - ${content}`)
+      this.printLog('[send]: ' + JSON.stringify(obj))
     },
     handleConnect() {
       this.createWebSocket()
