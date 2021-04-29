@@ -1,4 +1,4 @@
-# game-demo-ws-echo
+# vue-protobuf-ws-echo
 
 ## Project setup
 ```
